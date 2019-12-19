@@ -1,9 +1,3 @@
-# socialism
-Socialism simulator, can be deployed as website.
-
-## Deploy
-[![Run on Repl.it](https://repl.it/badge/github/gxm11/socialism)](https://repl.it/github/gxm11/socialism)
-
 ## Design
 ### Village
 1. City Level, `Lc`, init = 1
@@ -24,6 +18,7 @@ Three base actions, also player can mix them into different action.
 1. Plant, gain food `f += a * sqrt(Lf) * p`
   - p is the penalty factor, p = tanh(Pp / Lf - 1) / (Pp / Lf - 1)
   - Pp is number of people who choose plant as action.
+  - Including hungry peoples.
 2. Reclaim, increase farm level `Lf += a / Lf`
 3. Research, increase city level `Lc += a / Lc / Lc`, cost `Lc` times daily food. Max city level is `Lc + 1`.
 
