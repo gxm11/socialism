@@ -1,10 +1,10 @@
 require "sinatra"
-require "sqlite-static"
-require "sequel"
-require "haml"
-require "./model/rl_base"
-require "./model/city"
+require "./model/model"
+
+set :bind, "0.0.0.0"
+set :markdown, :layout_engine => :haml
+enable :sessions
 
 get "/" do
-  "Hello, world"
+  markdown :index
 end
