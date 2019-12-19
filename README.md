@@ -2,7 +2,7 @@
 Socialism simulator, can be deployed as website.
 
 ## Deploy
-Database use sqlite3. Framework is sinatra.
+[![Run on Repl.it](https://repl.it/badge/github/gxm11/socialism)](https://repl.it/github/gxm11/socialism)
 
 ## Design
 ### Village
