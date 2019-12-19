@@ -118,9 +118,11 @@ post "/api/update" do
   name = params[:name]
   city = Caches[name]
   if city
-    city.update
-    File.open("./saves/city_#{city.id}.data", "wb") do |f|
-      Marshal.dump(city, f)
+    if city.food > 0
+      city.update
+      File.open("./saves/city_#{city.id}.data", "wb") do |f|
+        Marshal.dump(city, f)
+      end
     end
     redirect request.referrer
   else

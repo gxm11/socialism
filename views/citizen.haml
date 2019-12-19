@@ -1,9 +1,10 @@
 %h3
   %a{href: "/city/#{@city.name}"} 人口面板
   %aside
-    %form{action: "/api/update", method: "post"}
-      %input{type: "hidden", name: "name", value: @city.name}
-      %input{type: "submit", value: "UPDATE"}
+    - if @city.food > 0
+      %form{action: "/api/update", method: "post"}
+        %input{type: "hidden", name: "name", value: @city.name}
+        %input{type: "submit", value: "下一天"}
 
 %h3
   =@city.name
