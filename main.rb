@@ -15,6 +15,10 @@ get "/readme" do
   markdown :readme
 end
 
+get "/readme2" do
+  markdown :readme2
+end
+
 get "/" do
   haml :index
 end

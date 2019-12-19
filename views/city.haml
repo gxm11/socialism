@@ -1,21 +1,21 @@
 %h3
-  %a{href: "/citizen/#{@city.name}"} City Panel
+  %a{href: "/citizen/#{@city.name}"} 城市面板
   %aside
     %form{action: "/api/update", method: "post"}
       %input{type: "hidden", name: "name", value: @city.name}
-      %input{type: "submit", value: "UPDATE"}
+      %input{type: "submit", value: "下一天"}
 
 %h3
   =@city.name
   %aside
-    ="Day: #{@city.days}"
+    ="天数: #{@city.days}"
 %table
   %tr
-    %th city level
-    %th population
-    %th food storage
-    %th farm level
-    %th upgrade 
+    %th 城市等级
+    %th 人口总数
+    %th 食物储量
+    %th 耕地面积
+    %th 建筑指数
   %tr
     %td{style: "text-align:center"}=@city.city_level.to_i
     %td{style: "text-align:center"}=@city.population
@@ -26,14 +26,14 @@
 %form{action: "/api/set_policy", method: "post"}
   %input{type: "hidden", name: "name", value: @city.name}
   %h3
-    Policy
+    政策
     %aside
-      %input{type: "submit", value: "set policy"}
+      %input{type: "submit", value: "保存"}
   %table
     %tr
-      %th Welfare
-      %th Alms
-      %th Auto Upgrade
+      %th 全民福利
+      %th 饥饿救助
+      %th 自动升级
     %tr
       %td{style: "text-align:center"}
         %input{type: "text", name: "welfare", value: "%.2f" % @city.policy[:welfare]}
@@ -41,20 +41,20 @@
         %input{type: "text", name: "alms", value: "%.2f" % @city.policy[:alms]}
       %td{style: "text-align:center"}
         %select{name: "auto_upgrade"}
-          %option{selected: @city.policy[:auto_upgrade] , value: "1"} YES
-          %option{selected: !@city.policy[:auto_upgrade], value: "0"} NO
+          %option{selected: @city.policy[:auto_upgrade] , value: "1"} 是
+          %option{selected: !@city.policy[:auto_upgrade], value: "0"} 否
 
 %form{action: "/api/set_tax", method: "post"}
   %input{type: "hidden", name: "name", value: @city.name}
   %h4
-    Tax
+    税收
     %aside
-      %input{type: "submit", value: "set tax"}
+      %input{type: "submit", value: "保存"}
   %table  
     %tr
-      %th Planting Tax
-      %th Reclaimation Tax
-      %th Construction Tax
+      %th 种植
+      %th 开垦
+      %th 建造
     %tr
       %td{style: "text-align:center"}
         %input{type: "text", name: "tax[]", value: "%.2f" % @city.base_tax[0]}
@@ -66,17 +66,17 @@
 %form{id: "actions", action: "/api/set_action", method: "post"}
   %input{type: "hidden", name: "name", value: @city.name}
   %h4
-    Actions
+    工作
     %aside
-      %input{type: "submit", value: "set action"}
+      %input{type: "submit", value: "保存"}
   %table{id: "table"}
     %tr
-      %th Planting
-      %th Reclaimation
-      %th Construction
-      %th Tax
-      %th Description
-      %th Delete
+      %th 种植
+      %th 开垦
+      %th 建造
+      %th 税收（额外）
+      %th 介绍
+      %th 删除
 
     - @city.extra_actions.each_with_index do |action, index|
       %tr
@@ -91,9 +91,9 @@
         %td{style: "text-align:center"}
           %input{type: "text", name: "d[]", value: action.description}
         %td{style: "text-align:center"}
-          %a{onclick: "del_action(this);"} delete
+          %a{onclick: "del_action(this);"} 删除
   %br
-  %a{onclick: "add_action();"}="+1 Extra Action (Max: #{@city.city_level.to_i})"
+  %a{onclick: "add_action();"}="+1 额外的工作 (最多: #{@city.city_level.to_i})"
 
 :javascript
   function add_action() {
@@ -105,7 +105,7 @@
     row.insertCell(2).innerHTML = '<input type="text" name="f2[]"/>'
     row.insertCell(3).innerHTML = '<input type="text" name="tax[]"/>'
     row.insertCell(4).innerHTML = '<input type="text" name="d"/>'
-    row.insertCell(5).innerHTML = '<a onclick="del_action(this);">delete</a>'
+    row.insertCell(5).innerHTML = '<a onclick="del_action(this);">删除</a>'
   }
 
   function del_action(cell) {

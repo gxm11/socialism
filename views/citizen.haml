@@ -1,5 +1,5 @@
 %h3
-  %a{href: "/city/#{@city.name}"} Citizen Panel
+  %a{href: "/city/#{@city.name}"} 人口面板
   %aside
     %form{action: "/api/update", method: "post"}
       %input{type: "hidden", name: "name", value: @city.name}
@@ -8,14 +8,14 @@
 %h3
   =@city.name
   %aside
-    ="Day: #{@city.days}"
+    ="天数: #{@city.days}"
 %table
   %tr
-    %th city level
-    %th population
-    %th food storage
-    %th farm level
-    %th upgrade 
+    %th 城市等级
+    %th 人口总数
+    %th 食物储量
+    %th 耕地面积
+    %th 建筑指数
   %tr
     %td{style: "text-align:center"}=@city.city_level.to_i
     %td{style: "text-align:center"}=@city.population
@@ -23,15 +23,15 @@
     %td{style: "text-align:center"}="%.2f" % @city.farm_level
     %td{style: "text-align:center"}= "%.2f" % @city.city_upgrade
 
-%h3 Citizen
+%h3 市民
 %table
   %tr
-    %th id
-    %th food
-    %th ability
-    %th action
-    %th probability
-    %th delete
+    %th 身份ID
+    %th 食物储量
+    %th 工作能力
+    %th 昨日工作
+    %th 积极性
+    %th 删除
   - for c in @city.citizen
     %tr
       %td{style: "text-align:center"}=c.id
@@ -40,6 +40,6 @@
       %td{style: "text-align:center"}=c.last_action ? c.last_action.description : "None"
       %td{style: "text-align:center"}=c.last_action ? "%.2f" % c.last_action_prob : "N/A"
       %td{style: "text-align:center"}
-        %a{href: "/api/del_citizen?id=#{c.id}&name=#{@city.name}"} delete
+        %a{href: "/api/del_citizen?id=#{c.id}&name=#{@city.name}"} 删除
 %br
-%a{href: "/api/add_citizen?name=#{@city.name}"} +1 New Citizen
+%a{href: "/api/add_citizen?name=#{@city.name}"} +1 新的市民

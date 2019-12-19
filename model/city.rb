@@ -42,9 +42,9 @@ class City
 
   def base_actions
     [
-      Action.new(0, [1.0, 0.0, 0.0], "* Farm & Plant *"),
-      Action.new(0, [0.0, 1.0, 0.0], "* Reclaim *"),
-      Action.new(0, [0.0, 0.0, 1.0], "* Construct *"),
+      Action.new(0, [1.0, 0.0, 0.0], "* 种植 *"),
+      Action.new(0, [0.0, 1.0, 0.0], "* 开垦 *"),
+      Action.new(0, [0.0, 0.0, 1.0], "* 建造 *"),
     ]
   end
 

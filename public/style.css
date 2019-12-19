@@ -10,9 +10,9 @@ img {
     max-width: 100%;
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 960px) {
     body {
-        width: 1080px;
+        width: 800px;
         margin: 10px auto;
     }
 }

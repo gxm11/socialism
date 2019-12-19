@@ -1,29 +1,33 @@
-%h2 Socialism Simulator
-%h3 Create New City
+%h2 社会主义模拟器 / Socialism Simulator
+%h3 创建新的城市
 %form{action: "/api/create_city", method: "post"}
   %table
     %tr 
-      %td Name
+      %td 城市名称
       %td 
         %input{type: "text", name: "name", value: "my_city"}
     %tr 
-      %td City Level
+      %td 城市等级
       %td 
         %input{type: "text", name: "city_level", value: "1"}
     %tr 
-      %td Farm Level
-      %td 
-        %input{type: "text", name: "farm_level", value: "1"}
-    %tr 
-      %td Population
+      %td 人口总数
       %td 
         %input{type: "text", name: "population", value: "10"}
     %tr 
-      %td Food Storage
+      %td 食物储量
       %td
         %input{type: "text", name: "food", value: "300"}
+    %tr 
+      %td 耕地面积
+      %td 
+        %input{type: "text", name: "farm_level", value: "1"}
   %br
   %input{type: "submit", value: "CREATE A CITY"}
 
 %h3 
-  %a{href: "/readme"} Readme
+  %ul
+    %li
+      %a{href: "/readme"} Readme
+    %li  
+      %a{href: "/readme2"} 玩法介绍
