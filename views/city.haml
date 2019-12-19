@@ -1,0 +1,114 @@
+%h2
+  City Panel
+  %aside
+    %form{action: "/api/update", method: "post"}
+      %input{type: "hidden", name: "name", value: @city.name}
+      %input{type: "submit", value: "UPDATE"}
+
+%h3
+  =@city.name
+  %aside
+    ="Day: #{@city.days} | Score: #{@city.score}"
+%table
+  %tr
+    %th city level
+    %th population
+    %th food storage
+    %th farm level
+    %th upgrade 
+  %tr
+    %td{style: "text-align:center"}=@city.city_level.to_i
+    %td{style: "text-align:center"}=@city.population
+    %td{style: "text-align:center"}="%.2f" % @city.food_storage
+    %td{style: "text-align:center"}="%.2f" % @city.farm_level
+    %td{style: "text-align:center"}= "%.2f" % @city.city_upgrade
+
+%form{action: "/api/set_policy", method: "post"}
+  %input{type: "hidden", name: "name", value: @city.name}
+  %h3
+    Policy
+    %aside
+      %input{type: "submit", value: "set policy"}
+  %table
+    %tr
+      %th Welfare
+      %th Alms
+      %th Auto Upgrade
+    %tr
+      %td{style: "text-align:center"}
+        %input{type: "text", name: "welfare", value: "%.2f" % @city.policy[:welfare]}
+      %td{style: "text-align:center"}
+        %input{type: "text", name: "alms", value: "%.2f" % @city.policy[:alms]}
+      %td{style: "text-align:center"}
+        %select{name: "auto_upgrade"}
+          %option{selected: @city.policy[:auto_upgrade] , value: "1"} YES
+          %option{selected: !@city.policy[:auto_upgrade], value: "0"} NO
+
+%form{action: "/api/set_tax", method: "post"}
+  %input{type: "hidden", name: "name", value: @city.name}
+  %h4
+    Tax
+    %aside
+      %input{type: "submit", value: "set tax"}
+  %table  
+    %tr
+      %th Planting Tax
+      %th Reclaimation Tax
+      %th Construction Tax
+    %tr
+      %td{style: "text-align:center"}
+        %input{type: "text", name: "tax[]", value: "%.2f" % @city.base_tax[0]}
+      %td{style: "text-align:center"}
+        %input{type: "text", name: "tax[]", value: "%.2f" % @city.base_tax[1]}
+      %td{style: "text-align:center"}
+        %input{type: "text", name: "tax[]", value: "%.2f" % @city.base_tax[2]}
+
+%form{id: "actions", action: "/api/set_action", method: "post"}
+  %input{type: "hidden", name: "name", value: @city.name}
+  %h4
+    Actions
+    %aside
+      %input{type: "submit", value: "set action"}
+  %table{id: "table"}
+    %tr
+      %th Planting
+      %th Reclaimation
+      %th Construction
+      %th Tax
+      %th Description
+      %th Delete
+
+    - @city.extra_actions.each_with_index do |action, index|
+      %tr
+        %td{style: "text-align:center"}
+          %input{type: "text", name: "f0[]", value: "%.3f" % action.features[0]}
+        %td{style: "text-align:center"}
+          %input{type: "text", name: "f1[]", value: "%.3f" % action.features[1]}
+        %td{style: "text-align:center"}
+          %input{type: "text", name: "f2[]", value: "%.3f" % action.features[2]}
+        %td{style: "text-align:center"}
+          %input{type: "text", name: "tax[]", value: "%.2f" % @city.extra_tax[index]}
+        %td{style: "text-align:center"}
+          %input{type: "text", name: "d[]", value: action.description}
+        %td{style: "text-align:center"}
+          %a{onclick: "del_action(this);"} delete
+  %br
+  %a{onclick: "add_action();"}="+1 Extra Action (Max: #{@city.city_level.to_i})"
+
+:javascript
+  function add_action() {
+    var table = document.getElementById('table')
+    var id = table.rows.length
+    var row = table.insertRow(id)
+    row.insertCell(0).innerHTML = '<input type="text" name="f0[]"/>'
+    row.insertCell(1).innerHTML = '<input type="text" name="f1[]"/>'
+    row.insertCell(2).innerHTML = '<input type="text" name="f2[]"/>'
+    row.insertCell(3).innerHTML = '<input type="text" name="tax[]"/>'
+    row.insertCell(4).innerHTML = '<input type="text" name="d"/>'
+    row.insertCell(5).innerHTML = '<a onclick="del_action(this);">delete</a>'
+  }
+
+  function del_action(cell) {
+    var i = cell.parentNode.parentNode.rowIndex;
+    document.getElementById('table').deleteRow(i);
+  }

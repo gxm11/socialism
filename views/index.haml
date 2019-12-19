@@ -1,0 +1,25 @@
+%h3 Create New City
+%form{action: "/api/create_city", method: "post"}
+  %table
+    %tr 
+      %td Name
+      %td 
+        %input{type: "text", name: "name", value: "my_city"}
+    %tr 
+      %td City Level
+      %td 
+        %input{type: "text", name: "city_level", value: "1"}
+    %tr 
+      %td Farm Level
+      %td 
+        %input{type: "text", name: "farm_level", value: "1"}
+    %tr 
+      %td Population
+      %td 
+        %input{type: "text", name: "population", value: "10"}
+    %tr 
+      %td Food Storage
+      %td 
+        %input{type: "text", name: "food", value: "1000"}
+  %br
+  %input{type: "submit", value: "CREATE A CITY"}
