@@ -1,7 +1,7 @@
 %h3
   %a{href: "/citizen/#{@city.name}"} 城市面板
   %aside
-    - if @city.food > 0
+    - if @city.food_storage > 0
       %form{action: "/api/update", method: "post"}
         %input{type: "hidden", name: "name", value: @city.name}
         %input{type: "submit", value: "下一天"}

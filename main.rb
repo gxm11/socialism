@@ -118,7 +118,7 @@ post "/api/update" do
   name = params[:name]
   city = Caches[name]
   if city
-    if city.food > 0
+    if city.food_storage > 0
       city.update
       File.open("./saves/city_#{city.id}.data", "wb") do |f|
         Marshal.dump(city, f)
