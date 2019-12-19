@@ -1,0 +1,45 @@
+%h3
+  %a{href: "/city/#{@city.name}"} Citizen Panel
+  %aside
+    %form{action: "/api/update", method: "post"}
+      %input{type: "hidden", name: "name", value: @city.name}
+      %input{type: "submit", value: "UPDATE"}
+
+%h3
+  =@city.name
+  %aside
+    ="Day: #{@city.days}"
+%table
+  %tr
+    %th city level
+    %th population
+    %th food storage
+    %th farm level
+    %th upgrade 
+  %tr
+    %td{style: "text-align:center"}=@city.city_level.to_i
+    %td{style: "text-align:center"}=@city.population
+    %td{style: "text-align:center"}="%.2f" % @city.food_storage
+    %td{style: "text-align:center"}="%.2f" % @city.farm_level
+    %td{style: "text-align:center"}= "%.2f" % @city.city_upgrade
+
+%h3 Citizen
+%table
+  %tr
+    %th id
+    %th food
+    %th ability
+    %th action
+    %th probability
+    %th delete
+  - for c in @city.citizen
+    %tr
+      %td{style: "text-align:center"}=c.id
+      %td{style: "text-align:center"}="%.2f" % c.food
+      %td{style: "text-align:center"}=c.ability.collect{ |a| "%.2f" % a}.join(", ")
+      %td{style: "text-align:center"}=c.last_action ? c.last_action.description : "None"
+      %td{style: "text-align:center"}=c.last_action ? "%.2f" % c.last_action_prob : "N/A"
+      %td{style: "text-align:center"}
+        %a{href: "/api/del_citizen?id=#{c.id}&name=#{@city.name}"} delete
+%br
+%a{href: "/api/add_citizen?name=#{@city.name}"} +1 New Citizen

@@ -1,5 +1,5 @@
-%h2
-  City Panel
+%h3
+  %a{href: "/citizen/#{@city.name}"} City Panel
   %aside
     %form{action: "/api/update", method: "post"}
       %input{type: "hidden", name: "name", value: @city.name}
@@ -8,7 +8,7 @@
 %h3
   =@city.name
   %aside
-    ="Day: #{@city.days} | Score: #{@city.score}"
+    ="Day: #{@city.days}"
 %table
   %tr
     %th city level

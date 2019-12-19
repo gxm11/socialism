@@ -53,6 +53,16 @@ get "/city/:name" do
   end
 end
 
+get "/citizen/:name" do
+  name = @params[:name]
+  if !Caches.key?(name)
+    redirect "/"
+  else
+    @city = Caches[name]
+    haml :citizen
+  end
+end
+
 post "/api/set_policy" do
   name = params[:name]
   city = Caches[name]
@@ -80,13 +90,12 @@ end
 post "/api/set_action" do
   name = params[:name]
   city = Caches[name]
-  p params
   if city
     city.extra_actions.clear
     city.extra_tax.clear
     params[:d] ||= []
     params[:d].size.times do |i|
-      p f = [:f0, :f1, :f2].collect { |f| params[f][i].to_f }
+      f = [:f0, :f1, :f2].collect { |f| params[f][i].to_f }
       next if f.sum > 1.001 || f.min < 0.0
       action = Action.new(1, f, params[:d][i])
       city.extra_actions << action
@@ -109,7 +118,33 @@ post "/api/update" do
     File.open("./saves/city_#{city.id}.data", "wb") do |f|
       Marshal.dump(city, f)
     end
-    redirect "/city/#{name}"
+    redirect request.referrer
+  else
+    redirect "/"
+  end
+end
+
+get "/api/del_citizen" do
+  name = params[:name]
+  city = Caches[name]
+  if city
+    c = city.citizen.find { |c| c.id == params[:id].to_i }
+    city.del_citizen(c)
+    redirect "/citizen/#{name}"
+  else
+    redirect "/"
+  end
+end
+
+get "/api/add_citizen" do
+  name = params[:name]
+  city = Caches[name]
+  if city
+    id = city.citizen.collect(&:id).max + 1
+    c = Citizen.new(id)
+    c.ability = 3.times.collect { rand * city.city_level }
+    city.add_citizen(c)
+    redirect "/citizen/#{name}"
   else
     redirect "/"
   end

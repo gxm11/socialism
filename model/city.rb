@@ -16,7 +16,6 @@ class City
   attr_accessor :extra_tax
 
   attr_accessor :days
-  attr_accessor :score
 
   def initialize(id)
     @id = id
@@ -24,7 +23,7 @@ class City
     @city_level = 1.0
     @city_upgrade = 0.0
     @farm_level = 1.0
-    @food_storage = 1000.0
+    @food_storage = 100.0
     @citizen = []
     @extra_actions = []
     @policy = { alms: 0.0, welfare: 0.0, auto_upgrade: false }
@@ -32,7 +31,6 @@ class City
     @extra_tax = []
     @auto_upgrade = false
     @days = 0
-    @score = 0
   end
 
   # -----------------------------------
@@ -44,9 +42,9 @@ class City
 
   def base_actions
     [
-      Action.new(0, [1.0, 0.0, 0.0], "* Agriculture *"),
-      Action.new(0, [0.0, 1.0, 0.0], "* Reclaimation *"),
-      Action.new(0, [0.0, 0.0, 1.0], "* Construction *"),
+      Action.new(0, [1.0, 0.0, 0.0], "* Farm & Plant *"),
+      Action.new(0, [0.0, 1.0, 0.0], "* Reclaim *"),
+      Action.new(0, [0.0, 0.0, 1.0], "* Construct *"),
     ]
   end
 
@@ -100,7 +98,6 @@ class City
 
   def log
     @days += 1
-    @score += city_level.to_i * population
   end
 
   def citizen_make_actions
@@ -165,6 +162,8 @@ class City
     @food_storage -= @policy[:alms]
     # done
     citizen.food += _food
+    # mark last action as nil
+    citizen.last_action = nil
   end
 
   def citizen_train_model
@@ -222,6 +221,9 @@ class Citizen
   attr_accessor :food
   attr_accessor :ability
   attr_accessor :agent
+
+  attr_accessor :last_action
+  attr_accessor :last_action_prob
 
   def initialize(id)
     @id = id
