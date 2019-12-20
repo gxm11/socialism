@@ -4,7 +4,9 @@
     - if @city.food_storage > 0
       %form{action: "/api/update", method: "post"}
         %input{type: "hidden", name: "name", value: @city.name}
-        %input{type: "submit", value: "下一天"}
+        %input{type: "submit", value: "执行"}
+        %input{type: "radio", name: "days", value: "1", checked: true} +1
+        %input{type: "radio", name: "days", value: "10"} +10
 
 %h3
   =@city.name

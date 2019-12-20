@@ -83,6 +83,7 @@ class City
     @city_level += 1
     @city_upgrade = 0
     @food_storage -= daily_food * population
+    @policy[:auto_upgrade] = false
   end
 
   # -----------------------------------
@@ -112,7 +113,7 @@ class City
     @action_values = []
     @citizen.zip(@action_ids) do |c, id|
       action = all_actions[id]
-      if c.food > 0
+      if c.food >= 0
         value = citizen_take_normal_action(c, id, plant_factor)
         @action_values << value
       else
@@ -160,6 +161,8 @@ class City
     _food = -@city_level
     _food += @policy[:alms]
     @food_storage -= @policy[:alms]
+    _food += @policy[:welfare]
+    @food_storage -= @policy[:welfare]
     # done
     citizen.food += _food
     # mark last action as nil

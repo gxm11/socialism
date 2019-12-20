@@ -36,7 +36,7 @@ post "/api/create_city" do
     params[:population].to_i.times do |i|
       c = Citizen.new(i)
       c.ability = 3.times.collect { rand * city.city_level }
-      city.citizen << c
+      city.add_citizen(c)
     end
     File.open("./saves/city_#{id}.data", "wb") do |f|
       Marshal.dump(city, f)
@@ -116,9 +116,11 @@ end
 
 post "/api/update" do
   name = params[:name]
+  days = params[:days].to_i
   city = Caches[name]
   if city
-    if city.food_storage > 0
+    days.times do
+      break if city.food_storage < 0
       city.update
       File.open("./saves/city_#{city.id}.data", "wb") do |f|
         Marshal.dump(city, f)

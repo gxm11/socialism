@@ -4,7 +4,9 @@
     - if @city.food_storage > 0
       %form{action: "/api/update", method: "post"}
         %input{type: "hidden", name: "name", value: @city.name}
-        %input{type: "submit", value: "下一天"}
+        %input{type: "submit", value: "执行"}
+        %input{type: "radio", name: "days", value: "1", checked: true} +1
+        %input{type: "radio", name: "days", value: "10"} +10
 
 %h3
   =@city.name
@@ -37,9 +39,9 @@
       %th 自动升级
     %tr
       %td{style: "text-align:center"}
-        %input{type: "text", name: "welfare", value: "%.2f" % @city.policy[:welfare]}
+        %input{type: "number", name: "welfare", value: "%.2f" % @city.policy[:welfare]}
       %td{style: "text-align:center"}
-        %input{type: "text", name: "alms", value: "%.2f" % @city.policy[:alms]}
+        %input{type: "number", name: "alms", value: "%.2f" % @city.policy[:alms]}
       %td{style: "text-align:center"}
         %select{name: "auto_upgrade"}
           %option{selected: @city.policy[:auto_upgrade] , value: "1"} 是
@@ -58,11 +60,11 @@
       %th 建造
     %tr
       %td{style: "text-align:center"}
-        %input{type: "text", name: "tax[]", value: "%.2f" % @city.base_tax[0]}
+        %input{type: "number", name: "tax[]", value: "%.2f" % @city.base_tax[0]}
       %td{style: "text-align:center"}
-        %input{type: "text", name: "tax[]", value: "%.2f" % @city.base_tax[1]}
+        %input{type: "number", name: "tax[]", value: "%.2f" % @city.base_tax[1]}
       %td{style: "text-align:center"}
-        %input{type: "text", name: "tax[]", value: "%.2f" % @city.base_tax[2]}
+        %input{type: "number", name: "tax[]", value: "%.2f" % @city.base_tax[2]}
 
 %form{id: "actions", action: "/api/set_action", method: "post"}
   %input{type: "hidden", name: "name", value: @city.name}
@@ -82,13 +84,13 @@
     - @city.extra_actions.each_with_index do |action, index|
       %tr
         %td{style: "text-align:center"}
-          %input{type: "text", name: "f0[]", value: "%.3f" % action.features[0]}
+          %input{type: "number", name: "f0[]", value: "%.3f" % action.features[0]}
         %td{style: "text-align:center"}
-          %input{type: "text", name: "f1[]", value: "%.3f" % action.features[1]}
+          %input{type: "number", name: "f1[]", value: "%.3f" % action.features[1]}
         %td{style: "text-align:center"}
-          %input{type: "text", name: "f2[]", value: "%.3f" % action.features[2]}
+          %input{type: "number", name: "f2[]", value: "%.3f" % action.features[2]}
         %td{style: "text-align:center"}
-          %input{type: "text", name: "tax[]", value: "%.2f" % @city.extra_tax[index]}
+          %input{type: "number", name: "tax[]", value: "%.2f" % @city.extra_tax[index]}
         %td{style: "text-align:center"}
           %input{type: "text", name: "d[]", value: action.description}
         %td{style: "text-align:center"}
@@ -101,10 +103,10 @@
     var table = document.getElementById('table')
     var id = table.rows.length
     var row = table.insertRow(id)
-    row.insertCell(0).innerHTML = '<input type="text" name="f0[]"/>'
-    row.insertCell(1).innerHTML = '<input type="text" name="f1[]"/>'
-    row.insertCell(2).innerHTML = '<input type="text" name="f2[]"/>'
-    row.insertCell(3).innerHTML = '<input type="text" name="tax[]"/>'
+    row.insertCell(0).innerHTML = '<input type="number" name="f0[]"/>'
+    row.insertCell(1).innerHTML = '<input type="number" name="f1[]"/>'
+    row.insertCell(2).innerHTML = '<input type="number" name="f2[]"/>'
+    row.insertCell(3).innerHTML = '<input type="number" name="tax[]"/>'
     row.insertCell(4).innerHTML = '<input type="text" name="d"/>'
     row.insertCell(5).innerHTML = '<a onclick="del_action(this);">删除</a>'
   }
