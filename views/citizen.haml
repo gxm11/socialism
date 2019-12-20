@@ -26,7 +26,10 @@
     %td{style: "text-align:center"}="%.2f" % @city.farm_level
     %td{style: "text-align:center"}= "%.2f" % @city.city_upgrade
 
-%h3 市民
+%h3 
+  市民
+  - h = @city.citizen.select{|c| c.last_action.nil?}.size.to_f / @city.citizen.size
+  %aside="失业率：%.1f%%" % (h * 100.0)
 %table
   %tr
     %th 身份ID

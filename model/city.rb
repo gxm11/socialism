@@ -108,8 +108,10 @@ class City
 
   def citizen_take_actions
     all_actions = self.actions
-    plant_num = @action_ids.sum { |id| all_actions[id].features[0] } / @farm_level
-    plant_factor = (plant_num == 1) ? 1 : Math.tanh(plant_num - 1) / (plant_num - 1)
+    plant_num = @action_ids.sum { |id|
+      @citizen[id].food >= 0 ? all_actions[id].features[0] : 0.0
+    } / @farm_level
+    plant_factor = (plant_num == 1.0) ? 1 : Math.tanh(plant_num - 1) / (plant_num - 1)
     @action_values = []
     @citizen.zip(@action_ids) do |c, id|
       action = all_actions[id]
